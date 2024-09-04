@@ -27,4 +27,6 @@ public class User extends BaseTime {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRoleType userRoleName;
+
+    //마지막 접속 날짜 필요할 듯
 }
