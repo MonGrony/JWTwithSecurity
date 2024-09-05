@@ -28,4 +28,8 @@ public class RestApiResponse<T> {
     public static <T> RestApiResponse<T> of(HttpStatus code, String message, T data) {
         return new RestApiResponse<>(true, code, message, data);
     }
+    public static <T> RestApiResponse<T> of(String message) {
+        return new RestApiResponse<>(true, HttpStatus.OK, message, null);
+    }
+
 }
