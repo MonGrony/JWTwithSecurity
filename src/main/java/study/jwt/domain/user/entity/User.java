@@ -28,5 +28,12 @@ public class User extends BaseTime {
     @Column(nullable = false)
     private UserRoleType userRoleName;
 
+    @Column(columnDefinition = "TEXT")
+    private String refreshToken;
+
+    public void updateRefreshToken(String newRefreshToken) {
+        this.refreshToken = newRefreshToken;
+    }
+
     //마지막 접속 날짜 필요할 듯
 }
