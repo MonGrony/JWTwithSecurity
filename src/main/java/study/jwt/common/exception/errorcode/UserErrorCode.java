@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum UserErrorCode implements ErrorCode {
 
     //auth
-    NOT_USER(HttpStatus.NOT_FOUND, "회원가입후 이용해주세요."),
+    NOT_SIGNED_UP_USER(HttpStatus.NOT_FOUND, "회원가입후 이용해주세요."),
     NOT_AUTH_USER(HttpStatus.NOT_FOUND, "로그인후 이용해주세요."),
     DUPLICATED_USER(HttpStatus.BAD_REQUEST, "중복등록되어 있습니다."),
     ;

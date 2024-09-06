@@ -18,7 +18,7 @@ import study.jwt.domain.user.repository.UserRepository;
 
 import java.io.IOException;
 
-import static study.jwt.common.exception.errorcode.UserErrorCode.NOT_USER;
+import static study.jwt.common.exception.errorcode.UserErrorCode.NOT_SIGNED_UP_USER;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -50,7 +50,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     ) throws IOException {
         String username = authResult.getName();
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(NOT_USER));
+                .orElseThrow(() -> new UserNotFoundException(NOT_SIGNED_UP_USER));
 
         String refreshTokenValue = jwtProvider.createAccessTokenAndRefreshToken(authResult,response);
         ((UsernamePasswordAuthenticationToken) authResult).eraseCredentials();
