@@ -15,7 +15,7 @@ import java.util.Collections;
 public class AuthenticatedUser implements UserDetails {
 
     private final String username;
-    private final String password;
+    private final String password; //
     private final String authority;
 
     public AuthenticatedUser(User user) {

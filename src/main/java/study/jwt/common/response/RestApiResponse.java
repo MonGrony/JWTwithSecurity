@@ -1,4 +1,4 @@
-package study.jwt.common.exception.errorResponse;
+package study.jwt.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
