@@ -87,7 +87,6 @@ public class SecurityConfig {
         );
 
         http.addFilterAfter(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);//로그인시
-
         http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);//데이터요청시
 
         http.exceptionHandling(exceptionHandling -> exceptionHandling
@@ -97,7 +96,5 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-
 
 }

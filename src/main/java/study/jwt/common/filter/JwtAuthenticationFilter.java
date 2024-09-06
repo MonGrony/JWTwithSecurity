@@ -11,7 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import study.jwt.common.exception.customexception.userexception.UserNotFoundException;
-import study.jwt.common.exception.errorResponse.RestApiResponse;
+import study.jwt.common.response.RestApiResponse;
 import study.jwt.common.security.jwt.JwtProvider;
 import study.jwt.domain.user.entity.User;
 import study.jwt.domain.user.repository.UserRepository;

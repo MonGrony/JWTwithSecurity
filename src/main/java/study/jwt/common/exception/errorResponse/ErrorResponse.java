@@ -3,9 +3,10 @@ package study.jwt.common.exception.errorResponse;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import study.jwt.common.exception.errorcode.ErrorCode;
+import study.jwt.common.response.RestApiResponse;
 
 @Getter
-public class ErrorResponse<T> extends RestApiResponse{
+public class ErrorResponse<T> extends RestApiResponse {
 
     protected ErrorResponse(boolean success, HttpStatus code, String message) {
         super(success, code, message, null);
