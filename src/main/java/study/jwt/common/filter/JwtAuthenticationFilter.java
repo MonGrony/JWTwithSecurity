@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import study.jwt.common.exception.customexception.userexception.UserNotFoundException;
 import study.jwt.common.response.RestApiResponse;
 import study.jwt.common.security.jwt.JwtProvider;
+import study.jwt.domain.user.dto.LoginRequestDto;
 import study.jwt.domain.user.entity.User;
 import study.jwt.domain.user.repository.UserRepository;
 
@@ -20,13 +22,12 @@ import java.io.IOException;
 
 import static study.jwt.common.exception.errorcode.UserErrorCode.NOT_SIGNED_UP_USER;
 
+@Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
-
-
 
     public JwtAuthenticationFilter(JwtProvider jwtProvider, UserRepository userRepository, ObjectMapper objectMapper) {
         this.jwtProvider = jwtProvider;
@@ -35,14 +36,27 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         setFilterProcessesUrl("/login");
     }
 
-//    @Override
-//    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response
-//    ) throws AuthenticationException {
-//        try {
-//            LoginRequestDto requestDto = new ObjectMapper().readValue(
-//                    request.getInputStream(), LoginRequestDto.class);
-//
-//    }
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response
+    ) throws AuthenticationException {
+        try {
+            LoginRequestDto requestDto = new ObjectMapper().readValue(
+                    request.getInputStream(), LoginRequestDto.class);
+
+            return getAuthenticationManager().authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            requestDto.getUsername(),
+                            requestDto.getPassword(),
+                            null
+                    )
+            );
+
+        } catch (IOException e) {
+            log.error("attemptAuthentication 예외 발생 {} ", e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+
+    }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,

@@ -20,7 +20,9 @@ public class UserService {
     public void Signup(SignupRequestDto requestDto) {
 
         checkDuplicateUsername(requestDto.getUsername());
-        User userData = User.saveUser(requestDto);
+        String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
+        User userData = User.saveUser(requestDto, encodedPassword);
+
         userRepository.save(userData);
     }
 

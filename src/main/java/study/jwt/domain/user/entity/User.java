@@ -43,9 +43,10 @@ public class User extends BaseTime {
         this.refreshToken = refreshToken;
     }
 
-    public static User saveUser(SignupRequestDto requestDto) {
+    public static User saveUser(SignupRequestDto requestDto, String encodedPassword) {
         return User.builder()
                 .username(requestDto.getUsername())
+                .password(encodedPassword)
                 .nickname(requestDto.getNickname())
                 .userRoleName(UserRoleType.USER)
                 .build();

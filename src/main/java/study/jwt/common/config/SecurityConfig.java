@@ -24,13 +24,14 @@ import study.jwt.common.security.handler.JwtAuthenticationEntryPoint;
 import study.jwt.common.security.jwt.JwtProvider;
 import study.jwt.domain.user.repository.UserRepository;
 
+import static study.jwt.common.management.AppManagement.VERSION;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
     private final String ADMIN = "ADMIN";
-    private final String Version = "/v1";
 
     private final JwtProvider jwtProvider;
     private final ObjectMapper objectMapper;
@@ -52,9 +53,15 @@ public class SecurityConfig {
     }
 
     @Bean
+    public CustomLoginFailureHandler customLoginFailureHandler() {
+        return new CustomLoginFailureHandler();
+    }
+
+    @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
         JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtProvider, userRepository, objectMapper);
         filter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
+        filter.setAuthenticationFailureHandler(customLoginFailureHandler());
         return filter;
     }
 
@@ -72,7 +79,7 @@ public class SecurityConfig {
         );
 
         http.formLogin(form -> form
-                .loginPage("/login")
+                .loginPage(VERSION + "/login")
                 .permitAll()
                 .defaultSuccessUrl("", true)
                 .failureHandler(new CustomLoginFailureHandler())
@@ -81,8 +88,8 @@ public class SecurityConfig {
 
 
         http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                .requestMatchers(HttpMethod.GET,Version + "/public/**").permitAll()
-                .requestMatchers(Version + "/admin/**").hasRole(ADMIN)
+                .requestMatchers(HttpMethod.GET,VERSION + "/public/**").permitAll()
+                .requestMatchers(VERSION + "/admin/**").hasRole(ADMIN)
                 .anyRequest().authenticated()
         );
 
